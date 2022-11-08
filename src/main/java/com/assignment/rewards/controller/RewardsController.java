@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.assignment.rewards.model.AccountRewards;
 import com.assignment.rewards.service.RewardsDataService;
 import com.assignment.rewards.service.RewardsLogicService;
 import com.assignment.rewards.util.RewardsUtil;
+import com.assignment.rewards.vo.AccountRewardsVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,12 +74,13 @@ public class RewardsController {
 	}
 	
 	@PostMapping("/createAccountReward")
-	public ResponseEntity<AccountRewards> createAccountReward(@RequestBody AccountRewards accountReward) throws RewardsException {
-		try {
+	public ResponseEntity<AccountRewardsVO> createAccountReward(@RequestBody AccountRewards accountReward) throws RewardsException {
+		try {			
 			accountReward = rewardsLogicService.generateAccountId(accountReward);
 			accountReward = rewardsLogicService.calculateRewardPoints(accountReward);
-			return new ResponseEntity<>(rewardsDataService.createAccountReward(accountReward), HttpStatus.OK);
-		} catch(Exception exception) {
+			return new ResponseEntity<>(RewardsUtil.convertAccountRewardsToVO(rewardsDataService.createAccountReward(accountReward))
+					, HttpStatus.OK);
+		} catch(Exception exception) {			
 			log.info(RewardsUtil.convertExceptionStackTraceToString(exception));
 			throw new RewardsException(RewardsUtil.EXCEPTION_MESSAGE);
 		}
@@ -93,5 +96,10 @@ public class RewardsController {
 			log.info(RewardsUtil.convertExceptionStackTraceToString(exception));
 			throw new RewardsException(RewardsUtil.EXCEPTION_MESSAGE);
 		}
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<String> handleRewardsException(RewardsException rewardsException) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(RewardsUtil.EXCEPTION_MESSAGE);
 	}
 }

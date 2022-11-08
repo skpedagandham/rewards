@@ -15,7 +15,7 @@ public class RewardsLogicService {
 			double purchasePrice = accountReward.getPurchasePrice();
 			if(purchasePrice > RewardsUtil.ZERO_AMOUNT) {
 				if(purchasePrice > RewardsUtil.HUNDRED) {
-					long differenceAmount = Long.valueOf((long) Math.ceil(purchasePrice - Double.valueOf(RewardsUtil.HUNDRED)));
+					long differenceAmount = ((long) Math.ceil(purchasePrice - Double.valueOf(RewardsUtil.HUNDRED)));
 					rewardPoints += (RewardsUtil.TW0 * differenceAmount);
 				}
 				
@@ -23,9 +23,9 @@ public class RewardsLogicService {
 					rewardPoints += (RewardsUtil.ONE * RewardsUtil.FIFTY);
 				}
 			}
-		}
-		
-		accountReward.setCurrentRewards(rewardPoints);
+			
+			accountReward.setCurrentRewards(rewardPoints);
+		}	
 		
 		return accountReward;
 	}

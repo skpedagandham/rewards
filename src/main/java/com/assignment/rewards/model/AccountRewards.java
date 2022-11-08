@@ -9,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
+@Data
 @Table(name = "ACCOUNT_REWARDS")
 public class AccountRewards {
 	
@@ -55,60 +58,7 @@ public class AccountRewards {
 		this.firstName = firstName;
 		this.lastName = lastName;		
 		this.purchasePrice = purchasePrice;			
-	}
-	
-	public long getId() {
-		return id;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
-
-	public double getPurchasePrice() {
-		return purchasePrice;
-	}
-
-	public void setPurchasePrice(double purchasePrice) {
-		this.purchasePrice = purchasePrice;
-	}
-
-	public long getCurrentRewards() {
-		return currentRewards;
-	}
-
-	public void setCurrentRewards(long currentRewards) {
-		this.currentRewards = currentRewards;
-	}
-
-	public LocalDateTime getLastUpdateDate() {
-		return lastUpdateDate;
-	}
-
-	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-
+	}	
 }	
 
 	
